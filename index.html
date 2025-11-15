@@ -12,22 +12,22 @@
         <section class="col-span-10 grid grid-cols-10 gap-2"> 
             <div class="col-span-2 bg-blue-900 rounded p-4">
                 <h2 class="text-center text-black font-bold">Formulaire</h2>
-                <form action="">
-                    <label for="">Titre: </label>
-                    <input type="text" class="my-3 h-8 rounded"><br>
-                    <label for="">Discription: </label>
-                    <input type="text" class="my-3 h-8 rounded"><br>
-                    <label for="">Preoriter</label><br>
-                    <select name="" id="Preoriter" class="my-3 h-8 rounded">
+                <form id="formTache">
+                    <label >Titre: </label>
+                    <input type="text" id="titre" class="my-3 h-8 rounded"><br>
+                    <label >Discription: </label>
+                    <input type="text" id="Discription" class="my-3 h-8 rounded"><br>
+                    <label >Priorité</label><br>
+                    <select id="priorite" class="my-3 h-8 rounded">
                         <option value="P0">P0</option>
                         <option value="P1">P1</option>
                         <option value="P2">P2</option>
                     </select><br> 
-                    <label for="">URL:</label><br>
-                    <input type="url" name="image" id="imageTache" class="h-8 my-3 rounded"><br>
-                    <label for="">Sous Tache</label>
-                    <input type="text" class="rounded h-8 my-3"><br>
-                    <button>+Ajouter Sous Tache</button>
+                    <label >URL:</label><br>
+                    <input type="url" name="image" id="UrlImageTache" class="h-8 my-3 rounded"><br>
+                    <label >Sous Tache</label>
+                    <input type="text" id="soustache" class="rounded h-8 my-3"><br>
+                    <button id="AjouterSouTcahe">+Ajouter Sous Tache</button>
                     <button type="submit" class="bg-black rounded h-8 p-1 ml-11 mt-2 text-white">Ajouter Tache</button>
                 </form>
             
