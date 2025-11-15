@@ -116,7 +116,7 @@ AjouterSouTcahe.addEventListener('click', (e) => {
 
     const label = document.createElement('label');
     label.textContent = 'Sous tache ' + nbrSousTache;
-    label.classList.add('block', 'mt-2');
+    label.classList.add('block', 'mt-2','block', 'text-sm', 'font-medium' ,'text-white', 'mb-1');
 
     const zone = document.createElement('input');
     zone.type = 'text';
