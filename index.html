@@ -12,47 +12,49 @@
 </head>
 
 <body class="bg-gray-300">
-    <main class="grid grid-cols-10 gap-2">
-        <header class="col-span-10 h-8   text-blue-600 font-bold bg-white text-center">Un systeme de gestion des taches
+    <main class="grid grid-cols-10 gap-2 container mx-auto p-2">
+        <header class="col-span-10 h-12 text-blue-600 font-bold bg-white text-center flex items-center justify-center text-lg"> Un systeme de gestion des taches
         </header>
         <section class="col-span-10 grid grid-cols-10 gap-2 p-2">
-            <div class="col-span-2 bg-blue-900 rounded p-4">
+            <div class="col-span-10 md:col-span-2 bg-blue-900 rounded p-4 shadow">
                 <h2 class="text-center text-black font-bold">Formulaire</h2>
                 <form id="formTache">
-                    <label>Titre: </label>
-                    <input type="text" id="titre" class="my-3 h-8 rounded"><br>
-                    <label>Discription: </label>
-                    <input type="text" id="Discription" class="my-3 h-8 rounded"><br>
-                    <label>Priorité</label><br>
-                    <select id="priorite" class="my-3 h-8 rounded">
+                    <label class="block text-sm font-medium text-white mb-1" >Titre: </label>
+                    <input type="text" id="titre" class="w-full my-3 h-8 rounded">
+                    <label class="block text-sm font-medium text-white mb-1">Discription: </label>
+                    <input type="text" id="Discription" class="w-full my-3 h-8 rounded">
+                    <label class="block text-sm font-medium text-white mb-1">Priorité</label>
+                    <select id="priorite" class="w-full my-3 h-8 rounded">
                         <option value="P0">P0</option>
                         <option value="P1">P1</option>
                         <option value="P2">P2</option>
                     </select><br>
-                    <label>URL:</label><br>
-                    <input type="url" name="image" id="UrlImageTache" class="h-8 my-3 rounded"><br>
-                
+                    <label class="block text-sm font-medium text-white mb-1">URL:</label>
+                    <input type="url" name="image" id="UrlImageTache" class="w-full h-8 my-3 rounded"><br>
+
                     <div id="zoneSoutache">
 
                     </div>
-                    <input type="button" id="AjouterSouTcahe" value="+Ajouter Sous Tache" class="mb-8 cursor-pointer"/>           
-                    <button type="submit" class="bg-black rounded h-8 p-1 ml-11 mt-2 text-white hover:bg-purple-200">Ajouter Tache</button>
+                    <input type="button" id="AjouterSouTcahe" value="+ Ajouter Sous Tache" class="bg-black w-3/3 mt-4 rounded h-10 text-white hover:bg-purple-600 px-2"/>           
+                    <button type="submit" class="bg-black w-full mt-4 rounded h-10 text-white hover:bg-purple-600">Ajouter Tache</button>
                 </form>
 
             </div>
-            <div class="col-span-2 bg-red-600 rounded  font-bold p-4">
+            <div class="col-span-10 md:col-span-2 bg-red-600 rounded  font-bold p-4">
                 <h2 class="text-center">A faire</h2>
                 <div id="listeAfaire">
                 </div>
             </div>
-            <div class="col-span-3 bg-blue-600 rounded  font-bold p-4">
+            <div class="col-span-10 md:col-span-3 bg-blue-600 rounded  font-bold p-4">
                 <h2 class="text-center">En cours</h2>
             </div>
-            <div class="col-span-3 bg-green-600 rounded  font-bold p-4">
+            <div class="col-span-10 md:col-span-3 bg-green-600 rounded  font-bold p-4">
                 <h2 class="text-center">Terminer</h2>
             </div>
         </section>
+
     </main>
+    
     <script src="main.js"></script>
 </body>
 
