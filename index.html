@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To do</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+<link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-300">
     <main class="grid grid-cols-10 gap-2">
-        <header class="col-span-10 h-8   text-blue-600 font-bold bg-white text-center">Un systeme de gestion des taches</header>
-        <section class="col-span-10 grid grid-cols-10 gap-2"> 
+        <header class="col-span-10 h-8   text-blue-600 font-bold bg-white text-center">Un systeme de gestion des taches
+        </header>
+        <section class="col-span-10 grid grid-cols-10 gap-2 p-2">
             <div class="col-span-2 bg-blue-900 rounded p-4">
                 <h2 class="text-center text-black font-bold">Formulaire</h2>
                 <form id="formTache">
-                    <label >Titre: </label>
+                    <label>Titre: </label>
                     <input type="text" id="titre" class="my-3 h-8 rounded"><br>
-                    <label >Discription: </label>
+                    <label>Discription: </label>
                     <input type="text" id="Discription" class="my-3 h-8 rounded"><br>
-                    <label >Priorité</label><br>
+                    <label>Priorité</label><br>
                     <select id="priorite" class="my-3 h-8 rounded">
                         <option value="P0">P0</option>
                         <option value="P1">P1</option>
                         <option value="P2">P2</option>
-                    </select><br> 
-                    <label >URL:</label><br>
+                    </select><br>
+                    <label>URL:</label><br>
                     <input type="url" name="image" id="UrlImageTache" class="h-8 my-3 rounded"><br>
-                    <label >Sous Tache</label>
-                    <input type="text" id="soustache" class="rounded h-8 my-3"><br>
-                    <button id="AjouterSouTcahe">+Ajouter Sous Tache</button>
-                    <button type="submit" class="bg-black rounded h-8 p-1 ml-11 mt-2 text-white">Ajouter Tache</button>
+                
+                    <div id="zoneSoutache">
+
+                    </div>
+                    <input type="button" id="AjouterSouTcahe" value="+Ajouter Sous Tache" class="mb-8 cursor-pointer"/>           
+                    <button type="submit" class="bg-black rounded h-8 p-1 ml-11 mt-2 text-white hover:bg-purple-200">Ajouter Tache</button>
                 </form>
-            
+
             </div>
             <div class="col-span-2 bg-red-600 rounded  font-bold p-4">
                 <h2 class="text-center">A faire</h2>
+                <div id="listeAfaire">
+                </div>
             </div>
             <div class="col-span-3 bg-blue-600 rounded  font-bold p-4">
                 <h2 class="text-center">En cours</h2>
             </div>
             <div class="col-span-3 bg-green-600 rounded  font-bold p-4">
-             <h2 class="text-center">Terminer</h2>
+                <h2 class="text-center">Terminer</h2>
             </div>
         </section>
     </main>
     <script src="main.js"></script>
 </body>
+
 </html>
