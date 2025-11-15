@@ -4,6 +4,9 @@ const listeAfaire = document.getElementById('listeAfaire');
 const AjouterSouTcahe = document.getElementById('AjouterSouTcahe');
 const zoneSoutache = document.getElementById('zoneSoutache');
 
+const idModal = document.getElementById('ModelFormAjouteTache');
+const masquerModal = document.getElementById('masquerModal');
+
 let ListesTaches = [];
 let SousTaches = [];
 let nbrSousTache = 1;
@@ -18,7 +21,9 @@ window.addEventListener('DOMContentLoaded',()=>{
     }
 })
 
-form.addEventListener('submit', (e) => {
+function ModelFormAjouteTache () {
+    idModal.classList.remove('hidden');
+    form.addEventListener('submit', (e) => {
     e.preventDefault();
 
     const inputZoneSousTaches = zoneSoutache.querySelectorAll('input');
@@ -47,7 +52,7 @@ form.addEventListener('submit', (e) => {
 
     ListesTaches.push(tache);
     localStorage.setItem('ListesTaches',JSON.stringify(ListesTaches));
-
+    idModal.classList.add('hidden');
     AfficherTache();
 
     form.reset();
@@ -55,7 +60,11 @@ form.addEventListener('submit', (e) => {
     nbrSousTache = 1;
     id++;
 });
+}
 
+function MasquerModal() {
+    idModal.classList.add('hidden');
+}
 
 
 function AfficherTache() {
