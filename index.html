@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To do</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-300">
+    <main class="grid grid-cols-10 gap-2">
+        <header class="col-span-10 col-start-1 col-end-11 text-blue-600 font-bold bg-white text-center">Un systeme de gestion des taches</header>
+        <section class="flex justify-between gap-10 ml-10"> 
+            <div class="flex flex-col  bg-blue-900 rounded   w-96 p-4">
+                <h2 class="text-center text-black font-bold">Formulaire</h2>
+                <form action="">
+                    <label for="">Titre: </label>
+                    <input type="text" class="my-3 h-8 rounded"><br>
+                    <label for="">Discription: </label>
+                    <input type="text" class="my-3 h-8 rounded"><br>
+                    <label for="">Preoriter</label>
+                    <select name="" id="Preoriter" class="my-3 h-8 rounded">
+                        <option value="P0">P0</option>
+                        <option value="P1">P1</option>
+                        <option value="P2">P2</option>
+                    </select><br> 
+                    <label for="">URL:</label>
+                    <input type="url" name="image" id="imageTache" class="h-8 my-3 rounded"><br>
+                    <label for="">Sous Tache</label>
+                    <input type="text" class="rounded h-8 my-3"><br>
+                    <button>+Ajouter Sous Tache</button>
+                    <button type="submit" class="bg-black rounded h-8 p-1 ml-12 mt-2 text-white">Ajouter Tache</button>
+                </form>
+            
+            </div>
+            <div class="bg-red-600 rounded  font-bold">A faire</div>
+            <div class="bg-blue-600 rounded  font-bold">En cours</div>
+            <div class="bg-green-600 rounded  font-bold"> Terminer</div>
+        </section>
+    </main>
+</body>
+</html>
