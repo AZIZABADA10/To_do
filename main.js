@@ -7,7 +7,7 @@ const zoneSoutache = document.getElementById('zoneSoutache');
 let ListesTaches = [];
 let SousTaches = [];
 let nbrSousTache = 1;
-let id = 1;
+let id = 0;
 
 
 window.addEventListener('DOMContentLoaded',()=>{
@@ -102,7 +102,7 @@ function AfficherTache() {
                                         <img class="w-6" src="../image/arrow.png" />
                                     </button>
                                     <button><i class='bx bx-check-circle'></i></button>
-                                    <button><i class='bx bx-trash'id="tacheSupprimer${tache.id}" ></i></button>
+                                    <button><i class='bx bx-trash'onclick="supprimerTache(${tache.id})" ></i></button>
                                 </div>
                             </div>
         `;
@@ -126,6 +126,18 @@ AjouterSouTcahe.addEventListener('click', (e) => {
     zoneSoutache.appendChild(zone);
     nbrSousTache++;
 })
+
+
+function supprimerTache(idAsupprimer) {
+    const lesTaches = localStorage.getItem('ListesTaches');
+    if (lesTaches) {
+        ListesTaches = JSON.parse(lesTaches);
+        ListesTaches.splice(idAsupprimer,1);
+        localStorage.setItem('ListesTaches', JSON.stringify(ListesTaches));        
+    }
+    AfficherTache();
+}
+
 
 
 
