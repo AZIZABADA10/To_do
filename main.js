@@ -277,39 +277,3 @@ function supprimerTache(idAsupprimer) {
     AfficherTache();
 }
 
-
-
-function DeplaceVersTerminer(idADeplace) {
-
-    let listAdesplase = localStorage.getItem('ListesTaches');
-    let listePerteAdeplace = JSON.parse(listAdesplase);
-    console.log(listePerteAdeplace);
-    let indexAdeplace = listePerteAdeplace.findIndex(item => item.id === idADeplace);
-    console.log("Priorité trouvée :", listePerteAdeplace[indexAdeplace].priorite);
-
-
-    if (indexAdeplace <= -1) {
-        alert('Auccun tache avace ce id');
-        return;
-    } else {
-        let p = (listePerteAdeplace[indexAdeplace].priorite || '').toString().trim().toUpperCase();
-        if (p === 'P0' || p === 'P1') {
-            let tach = listePerteAdeplace[indexAdeplace];
-            if (tach.etat === 0 || tach.etat === 1) {
-
-                tach.etat = 2;
-
-            } else if (tach.etat === 2) {
-
-                alert('C est déja Terminer ')
-            };
-
-        } else {
-            alert('Cette tache doit etre sur la zone en cours !!!');
-        }
-    }
-    ListesTaches = listePerteAdeplace;
-
-    localStorage.setItem('ListesTaches', JSON.stringify(ListesTaches));
-    AfficherTache();
-}
