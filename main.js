@@ -1,279 +1,132 @@
-/* Les vairiables du modal formulaire d'ajoute d'une tache  */
-const idModal = document.getElementById('ModelFormAjouteTache');
-const masquerModal = document.getElementById('masquerModal');
+// Modal
+const modalAjout = document.getElementById('modalAjoutTache');
 const form = document.getElementById('formTache');
+const zoneSousTache = document.getElementById('zoneSousTache');
+const ajouterSousTacheBtn = document.getElementById('ajouterSousTache');
 
-/*Les listes du tache a faire et a terminer */
+// Listes
 const listeAfaire = document.getElementById('listeAfaire');
+const listeAfaires = document.getElementById('listeAfaires');
 const listeEncours = document.getElementById('listeEncours');
 const listeTerminer = document.getElementById('listeTerminer');
 
-
-/* La form dynamique d'ajoute sous Tache  */
-const AjouterSouTcahe = document.getElementById('AjouterSouTcahe');
-const zoneSoutache = document.getElementById('zoneSoutache');
-
-
-
 let ListesTaches = [];
-let SousTaches = [];
-let nbrSousTache = 1;
 let id = 0;
+let nbrSousTache = 1;
 
-
-
-/** l'affiche du tache via localStorage **/
+// Chargement des tâches depuis localStorage
 window.addEventListener('DOMContentLoaded', () => {
-    const LesTacheSauvgarder = localStorage.getItem('ListesTaches');
-    if (LesTacheSauvgarder) {
-        ListesTaches = JSON.parse(LesTacheSauvgarder);
-        const MaxId = Math.max(...ListesTaches.map(t => t.id));
-        id = MaxId + 1;
-        AfficherTache();
+    const tachesSauvegardees = localStorage.getItem('ListesTaches');
+    if (tachesSauvegardees) {
+        ListesTaches = JSON.parse(tachesSauvegardees);
+        const maxId = Math.max(...ListesTaches.map(t => t.id));
+        id = maxId + 1;
+        afficherTaches();
     }
-})
+});
 
-
-/** Modal D'ajout une formulaire  **/
-function ModelFormAjouteTache() {
-    idModal.classList.remove('hidden');
-
+// Ouvrir / Fermer modal
+function ouvrirModal() { modalAjout.classList.remove('hidden'); }
+function fermerModal() { 
+    modalAjout.classList.add('hidden'); 
+    form.reset();
+    zoneSousTache.innerHTML = '';
+    nbrSousTache = 1;
 }
 
+// Ajouter sous-tâche dynamique
+ajouterSousTacheBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    const label = document.createElement('label');
+    label.textContent = 'Sous-tâche ' + nbrSousTache;
+    label.className = 'block mt-2 text-sm font-medium text-white mb-1';
+    
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.className = 'rounded h-8 my-3 w-full';
+
+    zoneSousTache.appendChild(label);
+    zoneSousTache.appendChild(input);
+    nbrSousTache++;
+});
+
+// Ajouter tâche
 form.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const inputZoneSousTaches = zoneSoutache.querySelectorAll('input');
     const sousTaches = [];
+    zoneSousTache.querySelectorAll('input').forEach(input => {
+        if(input.value.trim() !== '') sousTaches.push(input.value.trim());
+    });
 
-    inputZoneSousTaches.forEach(input => {
-        if (input.value.trim() !== '') {
-            sousTaches.push(input.value.trim());
-        }
-    })
-
-    /**La récuperation des donnée a partir les zones des texte */
-    const titre = document.getElementById("titre").value;
-    const Discription = document.getElementById('Discription').value;
-    const priorite = document.getElementById('priorite').value;
-    const url = document.getElementById('UrlImageTache').value;
-
-    /**L'objet tache avec ces attributs */
     const tache = {
-        id: id,
-        titre,
-        Discription,
-        priorite,
-        url,
+        id,
+        titre: document.getElementById('titre').value,
+        description: document.getElementById('description').value,
+        priorite: document.getElementById('priorite').value,
+        url: document.getElementById('urlImageTache').value,
         etat: 0,
         sousTaches
-    }
+    };
 
     ListesTaches.push(tache);
     localStorage.setItem('ListesTaches', JSON.stringify(ListesTaches));
-    idModal.classList.add('hidden');
-    AfficherTache();
-
-    form.reset();
-    zoneSoutache.innerHTML = '';
-    nbrSousTache = 1;
     id++;
+    fermerModal();
+    afficherTaches();
 });
 
-
-function MasquerModal() {
-    idModal.classList.add('hidden');
+// Supprimer tâche
+function supprimerTache(idTache) {
+    ListesTaches = ListesTaches.filter(t => t.id !== idTache);
+    localStorage.setItem('ListesTaches', JSON.stringify(ListesTaches));
+    afficherTaches();
 }
 
-/**L'affichage du tache */
-function AfficherTache() {
-
-    /**la véréfication  du l'état du tache **/
-    const tacheAfaire = ListesTaches.filter(t => t.etat === 0);
-    const tacheTerminer = ListesTaches.filter(t => t.etat === 2);
-    const tacheEncours = ListesTaches.filter(t => t.etat === 1);
-
-
-    listeAfaire.innerHTML = ``;
-    tacheAfaire.forEach(tache => {
-
-        const carte = document.createElement('div');
-        carte.classList.add('bg-white', 'rounded', 'shadow');
-
-        let colorPreorete = '';
-        if (tache.priorite == 'P0') {
-            colorPreorete = 'bg-purple-600';
-        } else if (tache.priorite == 'P1') {
-            colorPreorete = 'bg-orange-600';
-        } else {
-            colorPreorete = 'bg-red-600';
-        }
-
-
-        let sousTachesHTML = ``
-        if (tache.sousTaches.length === 0) {
-            sousTachesHTML = `<span>Aucune sous-tâche</span>`;
-        } else {
-            sousTachesHTML = `<ul class="list-disc ml-4">`;
-            tache.sousTaches.forEach(St => {
-                sousTachesHTML += `<li>${St}</li>`;
-            });
-            sousTachesHTML += `</ul>`;
-        }
-
-        carte.innerHTML = `
-                            <div class="p-2 m-2">
-                            <div class="flex justify-between">
-                            <h3 class="text-black font-bold mt-2">${tache.titre}</h3>
-                            <img src="${tache.url}" class="w-10 h-10 rounded-full mt-2"/>
-                            </div>
-                                
-                                <p class="text-gray-400 mt-2">${tache.Discription}</p>
-                                <p class="p-1 ${colorPreorete} mt-2 rounded w-min">${tache.priorite}</p>
-                                    ${sousTachesHTML}
-                                <div class="flex gap-2 mt-2 justify-end">
-                                    <button >
-                                        <img class="w-6" src="../image/arrow.png" />
-                                    </button>
-                                    <button onclick="DeplaceVersTerminer(${tache.id})"  ><i class='bx bx-check-circle text-green-600'></i></button>
-                                    <button><i class='bx bx-trash text-red-600' onclick="supprimerTache(${tache.id})" ></i></button>
-                                </div>
-                            </div>
-        `;
-
-        listeAfaire.appendChild(carte);
-    });
-
-
-    listeTerminer.innerHTML = ``;
-    tacheTerminer.forEach(tache => {
-
-        const carte = document.createElement('div');
-        carte.classList.add('bg-white', 'rounded', 'shadow');
-
-        let colorPreorete = '';
-        if (tache.priorite == 'P0') {
-            colorPreorete = 'bg-purple-600';
-        } else if (tache.priorite == 'P1') {
-            colorPreorete = 'bg-orange-600';
-        } else {
-            colorPreorete = 'bg-red-600';
-        }
-
-
-        let sousTachesHTML = ``
-        if (tache.sousTaches.length === 0) {
-            sousTachesHTML = `<span>Aucune sous-tâche</span>`;
-        } else {
-            sousTachesHTML = `<ul class="list-disc ml-4">`;
-            tache.sousTaches.forEach(St => {
-                sousTachesHTML += `<li>${St}</li>`;
-            });
-            sousTachesHTML += `</ul>`;
-        }
-
-        carte.innerHTML = `
-                            <div class="p-2 m-2">
-                            <div class="flex justify-between">
-                            <h3 class="text-black font-bold mt-2">${tache.titre}</h3>
-                            <img src="${tache.url}" class="w-10 h-10 rounded-full mt-2"/>
-                            </div>
-                                
-                                <p class="text-gray-400 mt-2">${tache.Discription}</p>
-                                <p class="p-1 ${colorPreorete} mt-2 rounded w-min">${tache.priorite}</p>
-                                    ${sousTachesHTML}
-                                <div class="flex gap-2 mt-2 justify-end">
-                                    <button >
-                                        <img class="w-6" src="../image/arrow.png" />
-                                    </button>
-                                    <button onclick="DeplaceVersTerminer(${tache.id})"  ><i class='bx bx-check-circle text-green-600'></i></button>
-                                    <button><i class='bx bx-trash text-red-600' onclick="supprimerTache(${tache.id})" ></i></button>
-                                </div>
-                            </div>
-        `;
-
-        listeTerminer.appendChild(carte);
-    });
-
-    listeEncours.innerHTML = ``;
-    tacheEncours.forEach(tache => {
-
-        const carte = document.createElement('div');
-        carte.classList.add('bg-white', 'rounded', 'shadow');
-
-        let colorPreorete = '';
-        if (tache.priorite == 'P0') {
-            colorPreorete = 'bg-purple-600';
-        } else if (tache.priorite == 'P1') {
-            colorPreorete = 'bg-orange-600';
-        } else {
-            colorPreorete = 'bg-red-600';
-        }
-
-
-        let sousTachesHTML = ``
-        if (tache.sousTaches.length === 0) {
-            sousTachesHTML = `<span>Aucune sous-tâche</span>`;
-        } else {
-            sousTachesHTML = `<ul class="list-disc ml-4">`;
-            tache.sousTaches.forEach(St => {
-                sousTachesHTML += `<li>${St}</li>`;
-            });
-            sousTachesHTML += `</ul>`;
-        }
-
-        carte.innerHTML = `
-                            <div class="p-2 m-2">
-                            <div class="flex justify-between">
-                            <h3 class="text-black font-bold mt-2">${tache.titre}</h3>
-                            <img src="${tache.url}" class="w-10 h-10 rounded-full mt-2"/>
-                            </div>
-                                
-                                <p class="text-gray-400 mt-2">${tache.Discription}</p>
-                                <p class="p-1 ${colorPreorete} mt-2 rounded w-min">${tache.priorite}</p>
-                                    ${sousTachesHTML}
-                                <div class="flex gap-2 mt-2 justify-end">
-                                    <button >
-                                        <img class="w-6" src="../image/arrow.png" />
-                                    </button>
-                                    <button onclick="DeplaceVersTerminer(${tache.id})"  ><i class='bx bx-check-circle text-green-600'></i></button>
-                                    <button><i class='bx bx-trash text-red-600' onclick="supprimerTache(${tache.id})" ></i></button>
-                                </div>
-                            </div>
-        `;
-
-        listeEncours.appendChild(carte);
-    });
-}
-
-
-AjouterSouTcahe.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const label = document.createElement('label');
-    label.textContent = 'Sous tache ' + nbrSousTache;
-    label.classList.add('block', 'mt-2', 'block', 'text-sm', 'font-medium', 'text-white', 'mb-1');
-
-    const zone = document.createElement('input');
-    zone.type = 'text';
-    zone.classList.add('rounded', 'h-8', 'my-3');
-
-    zoneSoutache.appendChild(label);
-    zoneSoutache.appendChild(zone);
-    nbrSousTache++;
-})
-
-
-function supprimerTache(idAsupprimer) {
-    const lesTaches = localStorage.getItem('ListesTaches');
-
-    if (lesTaches) {
-        ListesTaches = JSON.parse(lesTaches);
-        const indexAsupprimer = ListesTaches.findIndex(t => t.id === idAsupprimer);
-        ListesTaches.splice(indexAsupprimer, 1);
+// Déplacer tâche vers un état
+function deplacerTache(idTache, etat) {
+    const tache = ListesTaches.find(t => t.id === idTache);
+    if(tache) {
+        tache.etat = etat;
         localStorage.setItem('ListesTaches', JSON.stringify(ListesTaches));
+        afficherTaches();
     }
-    alert('La tache a été bien supprimer !');
-    AfficherTache();
 }
 
+// Afficher tâches
+function afficherTaches() {
+    listeAfaire.innerHTML = '';
+    listeAfaires.innerHTML = '';
+    listeEncours.innerHTML = '';
+    listeTerminer.innerHTML = '';
+
+    ListesTaches.forEach(tache => {
+        let couleur = tache.priorite === 'P0' ? 'bg-purple-600' :
+                      tache.priorite === 'P1' ? 'bg-orange-600' : 'bg-red-600';
+
+        let sousTachesHTML = tache.sousTaches.length ? 
+            `<ul class="list-disc ml-4">${tache.sousTaches.map(st => `<li>${st}</li>`).join('')}</ul>` : 
+            '<span>Aucune sous-tâche</span>';
+
+        const div = document.createElement('div');
+        div.className = 'bg-white rounded shadow p-2 m-2';
+        div.innerHTML = `
+            <div class="flex justify-between">
+                <h3 class="font-bold">${tache.titre}</h3>
+                <img src="${tache.url}" class="w-10 h-10 rounded-full"/>
+            </div>
+            <p class="text-gray-400 mt-2">${tache.description}</p>
+            <p class="p-1 ${couleur} mt-2 rounded w-min">${tache.priorite}</p>
+            ${sousTachesHTML}
+            <div class="flex gap-2 mt-2 justify-end">
+                ${tache.etat === 0 ? `<button onclick="deplacerTache(${tache.id},1)"><i class='bx bx-right-arrow-alt text-blue-600'></i></button>` : ''}
+                ${tache.etat !== 2 ? `<button onclick="deplacerTache(${tache.id},2)"><i class='bx bx-check-circle text-green-600'></i></button>` : ''}
+                <button onclick="supprimerTache(${tache.id})"><i class='bx bx-trash text-red-600'></i></button>
+            </div>
+        `;
+
+        if(tache.etat === 0) listeAfaire.appendChild(div);
+        else if(tache.etat === 1) listeEncours.appendChild(div);
+        else if(tache.etat === 2) listeTerminer.appendChild(div);
+    });
+}
